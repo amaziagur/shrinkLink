@@ -1,11 +1,13 @@
 server:
   host: 0.0.0.0
   port: 8080
-  contextPath: /shrink-it
+  contextPath: /shortener
 
 management:
   host: 0.0.0.0
   port: 8080
   contextPath: /manage
 
-  application.name: shrink-it
+  application.name: shortener
+
+default.suffix.length: 8
