@@ -21,12 +21,12 @@ public class DBConfiguration {
     private MongoMappingContext mongoMappingContext;
 
 
-//    private static final String MONGO_URI = "mongodb://amaziagur:xcg6Meje@ds049496.mlab.com:49496/stocker";
-//
-//    @Bean
-//    public MongoDbFactory mongoDbFactory() throws Exception {
-//        return new SimpleMongoDbFactory(new MongoClientURI(MONGO_URI));
-//    }
+    private static final String MONGO_URI = "mongodb://amaziagur:xcg6Meje@ds033865.mlab.com:33865/urls";
+
+    @Bean
+    public MongoDbFactory mongoDbFactory() throws Exception {
+        return new SimpleMongoDbFactory(new MongoClientURI(MONGO_URI));
+    }
 
     @Bean
     public MappingMongoConverter mongoConverter(MongoDbFactory mongoFactory) throws Exception {
