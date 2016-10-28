@@ -33,6 +33,7 @@ public class RedirectControllerIT {
     public static final String SHORT_URL = "http://www.crazyLabz/" + ID;
     public static final String ORIG_URL = "http://www.google.com";
     public static final String STATS = "/stats";
+    public static final String CLIENT_IP = "127.0.0.1";
     @Autowired
     private WebApplicationContext ctx;
 
@@ -51,9 +52,9 @@ public class RedirectControllerIT {
 
     @Test
     public void shouldRedirectUrl() throws Exception {
-        when(redirectService.redirect(ID)).thenReturn(ORIG_URL);
+        when(redirectService.redirect(ID, CLIENT_IP)).thenReturn(ORIG_URL);
         mockMvc.perform(get(SHORT_URL)).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(ORIG_URL));
-        verify(redirectService).redirect(ID);
+        verify(redirectService).redirect(ID, CLIENT_IP);
     }
 
     @Test

@@ -5,6 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 @Builder
 @Document(collection = "urls")
 @Getter
@@ -25,12 +29,26 @@ public class UrlAsset {
 
     private long hits;
 
-    public static UrlAsset updateHits(UrlAsset urlAsset){
+    private  Map<String, Long> visitors;
+
+    // https://reinhard.codes/2016/07/13/using-lomboks-builder-annotation-with-default-values/
+    public static class UrlAssetBuilder{
+        private Map<String, Long> visitors = new HashMap<>();
+    }
+
+    public static UrlAsset updateHits(UrlAsset urlAsset, String visitor){
         return UrlAsset.builder()
                 .hits(urlAsset.getHits() + 1)
                 .id(urlAsset.id)
                 .fullUrl(urlAsset.fullUrl)
                 .shortUrl(urlAsset.shortUrl)
+                .visitors(calcVisitorHits(urlAsset.getVisitors(), visitor))
                 .build();
+    }
+
+    private static Map<String, Long> calcVisitorHits(Map<String, Long> currentVisitors, String visitor){
+        Optional<Long> hits = Optional.ofNullable(currentVisitors.get(visitor));
+        currentVisitors.put(visitor, hits.isPresent() ? hits.get() + 1: 1L);
+        return currentVisitors;
     }
 }

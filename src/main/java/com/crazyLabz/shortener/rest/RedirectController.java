@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @RestController
 @RequestMapping(value = "/")
@@ -24,8 +26,8 @@ public class RedirectController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView redirect(@PathVariable("id") String id){
-        return new ModelAndView("redirect:" + redirectService.redirect(id));
+    public ModelAndView redirect(@PathVariable("id") String id, HttpServletRequest request){
+        return new ModelAndView("redirect:" + redirectService.redirect(id, request.getRemoteAddr()));
     }
 
     @RequestMapping(path = "{id}/stats", method = RequestMethod.GET)

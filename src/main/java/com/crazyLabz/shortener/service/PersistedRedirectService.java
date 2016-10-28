@@ -20,9 +20,9 @@ public class PersistedRedirectService implements RedirectService{
     }
 
     @Override
-    public String redirect(String id) {
+    public String redirect(String id, String clientIp) {
         UrlAsset urlAsset = getUrlAsset(id);
-        bumpHitCounter(urlAsset);
+        bumpHitCounter(urlAsset, clientIp);
         return urlAsset.getFullUrl();
     }
 
@@ -31,7 +31,8 @@ public class PersistedRedirectService implements RedirectService{
                     .orElseThrow(() -> new AssetNotFoundException("asset: " + id + " not found!"));
     }
 
-    private void bumpHitCounter(UrlAsset urlAsset) {
-        assetRepository.save(UrlAsset.updateHits(urlAsset));
+    private void bumpHitCounter(UrlAsset urlAsset, String clientIp) {
+        UrlAsset asset = UrlAsset.updateHits(urlAsset, clientIp);
+        assetRepository.save(asset);
     }
 }
