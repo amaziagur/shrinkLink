@@ -24,8 +24,6 @@ public class RedirectController {
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView redirect(@PathVariable("id") String id){
-        String redirect = redirectService.redirect(id);
-
-        return new ModelAndView("redirect:" + redirect);
+        return new ModelAndView("redirect:" + redirectService.redirect(id));
     }
 }
