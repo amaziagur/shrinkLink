@@ -38,4 +38,14 @@ class ShortenerClient {
         assert res.status == 200
         return res.responseData as ShortenResponse
     }
+
+    def redirect(String shortUrl) {
+        def res = client.get([
+                path: shortUrl
+        ])
+
+        assert res.status == 200
+
+        return res.responseData as String
+    }
 }

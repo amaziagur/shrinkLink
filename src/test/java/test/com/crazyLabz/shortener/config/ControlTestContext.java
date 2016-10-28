@@ -1,6 +1,7 @@
 package test.com.crazyLabz.shortener.config;
 
 
+import com.crazyLabz.shortener.service.RedirectService;
 import com.crazyLabz.shortener.service.ShortenerService;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class ControlTestContext {
 
     @Bean
-    public ShortenerService getDeviceService() {
+    public ShortenerService getShortenerService() {
         return Mockito.mock(ShortenerService.class);
+    }
+
+    @Bean
+    public RedirectService getRedirectService() {
+        return Mockito.mock(RedirectService.class);
     }
 }
