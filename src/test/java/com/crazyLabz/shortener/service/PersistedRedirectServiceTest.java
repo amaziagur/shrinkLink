@@ -1,6 +1,7 @@
 package com.crazyLabz.shortener.service;
 
 import com.crazyLabz.shortener.entities.UrlAsset;
+import com.crazyLabz.shortener.fetcher.GeoLocationFetcher;
 import com.crazyLabz.shortener.repos.UrlAssetRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,9 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PersistedRedirectServiceTest {
 
@@ -29,7 +28,8 @@ public class PersistedRedirectServiceTest {
             .build();
 
     private UrlAssetRepository assetRepository = mock(UrlAssetRepository.class);
-    PersistedRedirectService redirectService = new PersistedRedirectService(assetRepository);
+    private GeoLocationFetcher locationFetcher = mock(GeoLocationFetcher.class);
+    PersistedRedirectService redirectService = new PersistedRedirectService(assetRepository, locationFetcher);
 
     @Before
     public void init(){
