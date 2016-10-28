@@ -19,22 +19,33 @@ class UrlShortenerSpec extends Specification {
     def "should short when given full url"(){
 
         when:
-        def shortUrl = shortenerClient.shortMe(FULL_URL, PREFIX)
+        def response = shortenerClient.shortMe(FULL_URL, PREFIX)
 
         then:
-        assert shortUrl.shortUrl != null
-        assert new String(shortUrl.shortUrl).contains(PREFIX)
+        assert response.shortUrl != null
+        assert new String(response.shortUrl).contains(PREFIX)
     }
 
     def "should redirect shortUrl to orig"(){
 
         when:
-        def shortUrl = shortenerClient.shortMe(FULL_URL, PREFIX)
+        def response = shortenerClient.shortMe(FULL_URL, PREFIX)
 
         then:
-        def redirectedPage = shortenerClient.redirect(shortUrl.shortUrl)
+        def redirectedPage = shortenerClient.redirect(response.shortUrl)
 
         assert redirectedPage.contains("Google")
+    }
+
+    def "number of hits should show in stats"(){
+        when:
+        def response = shortenerClient.shortMe(FULL_URL, PREFIX)
+
+        and:
+        shortenerClient.redirect(response.shortUrl)
+
+        then:
+        assert shortenerClient.urlStats(response.shortUrl).stats["hits"] == ""+1
     }
 
 }

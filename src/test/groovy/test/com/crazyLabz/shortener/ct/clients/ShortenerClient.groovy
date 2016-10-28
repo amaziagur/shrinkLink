@@ -6,6 +6,7 @@ import groovyx.net.http.RESTClient
 import org.springframework.boot.SpringApplication
 import org.springframework.context.ConfigurableApplicationContext
 import com.crazyLabz.shortener.Application
+import test.com.crazyLabz.shortener.ct.responses.UrlStatsResponse
 
 class ShortenerClient {
 
@@ -47,5 +48,16 @@ class ShortenerClient {
         assert res.status == 200
 
         return res.responseData as String
+    }
+
+    def urlStats(String shortUrl) {
+        def res = client.get([
+                path: shortUrl + "/stats",
+                contentType: "application/json"
+        ])
+
+        assert res.status == 200
+
+        return res.responseData as UrlStatsResponse
     }
 }

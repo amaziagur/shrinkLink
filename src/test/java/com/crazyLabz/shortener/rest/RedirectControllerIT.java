@@ -1,6 +1,7 @@
 package com.crazyLabz.shortener.rest;
 
 import com.crazyLabz.shortener.service.RedirectService;
+import com.crazyLabz.shortener.service.UrlStatsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +32,15 @@ public class RedirectControllerIT {
 
     public static final String SHORT_URL = "http://www.crazyLabz/" + ID;
     public static final String ORIG_URL = "http://www.google.com";
+    public static final String STATS = "/stats";
     @Autowired
     private WebApplicationContext ctx;
 
     @Autowired
     private RedirectService redirectService;
+
+    @Autowired
+    private UrlStatsService statsService;
 
     private MockMvc mockMvc;
 
@@ -49,5 +54,11 @@ public class RedirectControllerIT {
         when(redirectService.redirect(ID)).thenReturn(ORIG_URL);
         mockMvc.perform(get(SHORT_URL)).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(ORIG_URL));
         verify(redirectService).redirect(ID);
+    }
+
+    @Test
+    public void shouldRetrieveStats() throws Exception {
+        mockMvc.perform(get(SHORT_URL + STATS)).andExpect(status().isOk());
+        verify(statsService).stats(ID);
     }
 }

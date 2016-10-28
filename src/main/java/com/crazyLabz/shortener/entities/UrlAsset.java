@@ -22,4 +22,15 @@ public class UrlAsset {
 
     @Indexed
     private String fullUrl;
+
+    private long hits;
+
+    public static UrlAsset updateHits(UrlAsset urlAsset){
+        return UrlAsset.builder()
+                .hits(urlAsset.getHits() + 1)
+                .id(urlAsset.id)
+                .fullUrl(urlAsset.fullUrl)
+                .shortUrl(urlAsset.shortUrl)
+                .build();
+    }
 }
