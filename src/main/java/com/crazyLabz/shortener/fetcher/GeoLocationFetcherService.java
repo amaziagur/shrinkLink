@@ -16,7 +16,7 @@ public class GeoLocationFetcherService implements GeoLocationFetcher{
 
     @Override
     public GeoLocation fetchLocation(String clientIp) {
-        ResponseEntity<String> response = restTemplate.exchange(DOMAIN + "141.226.162.117", HttpMethod.GET, null, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(DOMAIN + clientIp, HttpMethod.GET, null, String.class);
         return new Gson().fromJson(response.getBody(), GeoLocation.class);
     }
 }
