@@ -3,6 +3,7 @@ package com.crazyLabz.shortener.service;
 import com.crazyLabz.shortener.entities.UrlAsset;
 import com.crazyLabz.shortener.matchers.ShortenerMatcher;
 import com.crazyLabz.shortener.repos.UrlAssetRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -15,9 +16,21 @@ public class PersistedShortenerServiceTest {
     public static final String URL = "http://short-me.com?companyName=aaa";
     public static final String PREFIX = "http://www.crazyLabs/";
     public static final int SUFFIX_LENGTH = 8;
+    public static final String DEFAULT_DOMAIN = "http://defult.domain";
     private UrlAssetRepository assetRepository = mock(UrlAssetRepository.class);
 
     PersistedShortenerService shortenerService = new PersistedShortenerService(assetRepository);
+
+    @Before
+    public void init(){
+        shortenerService.setDefaultDomain(DEFAULT_DOMAIN);
+    }
+
+    @Test
+    public void shouldUseDefaultPrefixWhenEmpty(){
+        String shorten = shortenerService.shorten(URL, null, SUFFIX_LENGTH);
+        assertTrue(shorten.startsWith(DEFAULT_DOMAIN));
+    }
 
     @Test
     public void shouldShortUrlWithPrefix(){

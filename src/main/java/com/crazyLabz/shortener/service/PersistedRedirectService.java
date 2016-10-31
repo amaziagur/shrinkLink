@@ -26,18 +26,18 @@ public class PersistedRedirectService implements RedirectService{
     @Override
     public String redirect(String id, String clientIp) {
         UrlAsset urlAsset = getUrlAsset(id);
-        GeoLocation geoLocation = geoLocationFetcher.fetchLocation(clientIp);
-        bumpHitCounter(urlAsset, clientIp, geoLocation);
+        gatherStats(clientIp, urlAsset);
         return urlAsset.getFullUrl();
+    }
+
+    private void gatherStats(String clientIp, UrlAsset urlAsset) {
+        GeoLocation visitorLocation = geoLocationFetcher.fetchLocation(clientIp);
+        UrlAsset asset = UrlAsset.updateHits(urlAsset, clientIp, visitorLocation);
+        assetRepository.save(asset);
     }
 
     private UrlAsset getUrlAsset(String id) {
         return (UrlAsset) Optional.ofNullable(assetRepository.findOne(id))
                     .orElseThrow(() -> new AssetNotFoundException("asset: " + id + " not found!"));
-    }
-
-    private void bumpHitCounter(UrlAsset urlAsset, String clientIp, GeoLocation visitorLocation) {
-        UrlAsset asset = UrlAsset.updateHits(urlAsset, clientIp, visitorLocation);
-        assetRepository.save(asset);
     }
 }

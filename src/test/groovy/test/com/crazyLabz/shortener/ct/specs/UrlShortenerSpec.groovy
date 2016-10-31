@@ -1,5 +1,6 @@
 package test.com.crazyLabz.shortener.ct.specs
 
+import org.junit.Ignore
 import test.com.crazyLabz.shortener.ct.clients.ShortenerClient
 import spock.lang.Shared
 import spock.lang.Specification

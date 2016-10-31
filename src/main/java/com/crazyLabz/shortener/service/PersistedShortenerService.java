@@ -17,6 +17,10 @@ public class PersistedShortenerService implements ShortenerService {
     @Value("${default.suffix.length:8}")
     private int suffixLength;
 
+    @Setter
+    @Value("${default.domain}")
+    private String defaultDomain;
+
     UrlAssetRepository assetRepository;
 
     @Autowired
@@ -28,7 +32,14 @@ public class PersistedShortenerService implements ShortenerService {
     public String shorten(String url, String prefix, int length) {
         String shortened = generateShort(length);
         logUrlMetaData(url, prefix, shortened);
-        return prefix + shortened;
+        return calcPrefix(prefix) + shortened;
+    }
+
+    private String calcPrefix(String prefix) {
+        if(prefix == null){
+            prefix = defaultDomain;
+        }
+        return prefix;
     }
 
     private void logUrlMetaData(String url, String prefix, String id) {

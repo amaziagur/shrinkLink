@@ -10,4 +10,6 @@ management:
 
   application.name: shortener
 
-default.suffix.length: 8
+default:
+  suffix.length: 8
+  domain: https://shortener-link.herokuapp.com/shortener/
