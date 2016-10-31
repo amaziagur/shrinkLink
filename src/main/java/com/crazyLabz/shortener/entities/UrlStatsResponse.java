@@ -11,5 +11,5 @@ import java.util.Map;
 @EqualsAndHashCode
 @ToString
 public class UrlStatsResponse {
-    private Map<String, String> stats;
+    private UrlAsset asset;
 }

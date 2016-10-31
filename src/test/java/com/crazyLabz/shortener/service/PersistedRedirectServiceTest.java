@@ -1,5 +1,6 @@
 package com.crazyLabz.shortener.service;
 
+import com.crazyLabz.shortener.entities.GeoLocation;
 import com.crazyLabz.shortener.entities.UrlAsset;
 import com.crazyLabz.shortener.fetcher.GeoLocationFetcher;
 import com.crazyLabz.shortener.repos.UrlAssetRepository;
@@ -17,7 +18,7 @@ public class PersistedRedirectServiceTest {
     public static final String CLIENT_IP = "127.0.0.1";
     private static final String URL_ID = "urlId";
     private static final String FULL_URL = "http://www.crazyLabz.com";
-    private static final Map<String , Long> VISITOR = new HashMap<>();
+    private static final Map<String , GeoLocation> VISITOR = new HashMap<>();
     private UrlAsset URL_ASSET;
 
     private static final UrlAsset URL_ASSET_REVISIT = UrlAsset.builder()
@@ -55,16 +56,18 @@ public class PersistedRedirectServiceTest {
 
     @Test
     public void shouldCountNewVisitorHits(){
-        updateNumberOfVisits(1L);
+        updateNumberOfVisits(1);
         when(assetRepository.findOne(URL_ID)).thenReturn(URL_ASSET);
+        when(locationFetcher.fetchLocation(CLIENT_IP)).thenReturn(new GeoLocation());
         redirectService.redirect(URL_ID, CLIENT_IP);
         verify(assetRepository).save(bumpHitCountersOnAsset(1));
     }
 
     @Test
     public void shouldCountReVisitHits(){
-        updateNumberOfVisits(2L);
+        updateNumberOfVisits(2);
         when(assetRepository.findOne(URL_ID)).thenReturn(URL_ASSET_REVISIT);
+        when(locationFetcher.fetchLocation(CLIENT_IP)).thenReturn(new GeoLocation());
         redirectService.redirect(URL_ID, CLIENT_IP);
         verify(assetRepository).save(bumpHitCountersOnAsset(2));
     }
@@ -78,7 +81,9 @@ public class PersistedRedirectServiceTest {
                 .build();
     }
 
-    private void updateNumberOfVisits(Long hits){
-        VISITOR.put(CLIENT_IP, hits);
+    private void updateNumberOfVisits(int hits){
+        GeoLocation geoLocation = new GeoLocation();
+        geoLocation.setHits(hits);
+        VISITOR.put(CLIENT_IP, geoLocation);
     }
 }

@@ -1,9 +1,9 @@
 package com.crazyLabz.shortener.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
@@ -29,4 +29,11 @@ public class GeoLocation {
     private double longitude;
     @SerializedName("metro_code")
     private int metroCode;
+
+    private int hits = 1;
+
+    public static GeoLocation bumpHits(GeoLocation location){
+        location.setHits(location.getHits() +1);
+        return location;
+    }
 }

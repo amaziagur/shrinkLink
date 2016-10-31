@@ -30,7 +30,6 @@ public class PersistedUrlStatsServiceTest {
     @Test
     public void shouldRetrieveFullStats(){
         when(assetRepository.findOne(ID)).thenReturn(URL_ASSET);
-        Map<String, String> stats = statsService.stats(ID);
-        assertTrue(Long.valueOf(stats.get("hits")) == 13);
+        assertTrue(statsService.stats(ID).getHits() == 13);
     }
 }

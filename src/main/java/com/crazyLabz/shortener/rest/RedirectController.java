@@ -33,6 +33,6 @@ public class RedirectController {
     @RequestMapping(path = "{id}/stats", method = RequestMethod.GET)
     @ResponseBody
     public UrlStatsResponse stats(@PathVariable("id") String id){
-        return UrlStatsResponse.builder().stats(statsService.stats(id)).build();
+        return UrlStatsResponse.builder().asset(statsService.stats(id)).build();
     }
 }

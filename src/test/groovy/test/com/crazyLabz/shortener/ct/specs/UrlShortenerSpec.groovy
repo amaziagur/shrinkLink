@@ -45,7 +45,19 @@ class UrlShortenerSpec extends Specification {
         shortenerClient.redirect(response.shortUrl)
 
         then:
-        assert shortenerClient.urlStats(response.shortUrl).stats["hits"] == ""+1
+        assert shortenerClient.urlStats(response.shortUrl).asset.hits == 1
+    }
+
+    def "number of hits for revisit should show in stats"(){
+        when:
+        def response = shortenerClient.shortMe(FULL_URL, PREFIX)
+
+        and:
+        shortenerClient.redirect(response.shortUrl)
+
+        then:
+        shortenerClient.redirect(response.shortUrl)
+        assert shortenerClient.urlStats(response.shortUrl).asset.hits == 2
     }
 
 }

@@ -1,9 +1,9 @@
 package com.crazyLabz.shortener.service;
 
-import java.util.Map;
+import com.crazyLabz.shortener.entities.UrlAsset;
 
 public interface UrlStatsService {
 
-    Map<String,String> stats(String id);
+    UrlAsset stats(String id);
 
 }
