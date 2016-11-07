@@ -61,4 +61,12 @@ class UrlShortenerSpec extends Specification {
         assert shortenerClient.urlStats(response.shortUrl).asset.hits == 2
     }
 
+    def "should get all urls"(){
+        when:
+        def urls = shortenerClient.all();
+
+        then:
+        assert urls.size() > 0;
+    }
+
 }

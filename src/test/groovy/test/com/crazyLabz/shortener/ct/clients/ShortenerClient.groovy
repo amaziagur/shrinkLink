@@ -1,5 +1,6 @@
 package test.com.crazyLabz.shortener.ct.clients
 
+import com.crazyLabz.shortener.entities.UrlAsset
 import test.com.crazyLabz.shortener.ct.requests.ShortenRequest
 import test.com.crazyLabz.shortener.ct.responses.ShortenResponse
 import groovyx.net.http.RESTClient
@@ -12,6 +13,7 @@ class ShortenerClient {
 
     static def CONTEXT_PATH = "shortener"
     static def SHORT = "$CONTEXT_PATH/v1/short"
+    static def ALL_ASSETS = "$CONTEXT_PATH/v1/assets"
 
     RESTClient client
     ConfigurableApplicationContext service
@@ -59,5 +61,16 @@ class ShortenerClient {
         assert res.status == 200
 
         return res.responseData as UrlStatsResponse
+    }
+
+    def all() {
+        def res = client.get([
+                path: ALL_ASSETS + "/all",
+                contentType: "application/json"
+        ])
+
+        assert res.status == 200
+
+        return res.responseData as List<UrlAsset>
     }
 }

@@ -1,6 +1,7 @@
 package test.com.crazyLabz.shortener.config;
 
 
+import com.crazyLabz.shortener.service.AssetsService;
 import com.crazyLabz.shortener.service.RedirectService;
 import com.crazyLabz.shortener.service.ShortenerService;
 import com.crazyLabz.shortener.service.UrlStatsService;
@@ -31,5 +32,10 @@ public class ControlTestContext {
     @Bean
     public UrlStatsService getStatsService(){
         return mock(UrlStatsService.class);
+    }
+
+    @Bean
+    public AssetsService getAssetsService(){
+        return mock(AssetsService.class);
     }
 }
