@@ -12,13 +12,17 @@ import org.springframework.web.client.RestTemplate;
 public class IconFetcherService implements IconFetcher{
 
     private RestTemplate restTemplate = new RestTemplate();
-    private static final String DOMAIN = "http://icons.better-idea.org/allicons.json?pretty=true&url=   ";
+    private static final String DOMAIN = "http://icons.better-idea.org/allicons.json?pretty=true&url=";
 
     @Override
     public String fetchIconFor(String fullUrl) {
-        ResponseEntity<String> response = restTemplate.exchange(DOMAIN + fullUrl, HttpMethod.GET, null, String.class);
-        IconsAsset iconsAsset = new Gson().fromJson(response.getBody(), IconsAsset.class);
-        return grabIcon(iconsAsset);
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(DOMAIN + fullUrl, HttpMethod.GET, null, String.class);
+            IconsAsset iconsAsset = new Gson().fromJson(response.getBody(), IconsAsset.class);
+            return grabIcon(iconsAsset);
+        }catch (Exception e){
+            return "";
+        }
     }
 
     private String grabIcon(IconsAsset iconsAsset) {

@@ -48,7 +48,7 @@ public class PersistedShortenerService implements ShortenerService {
     }
 
     private void logUrlMetaData(String url, String prefix, String id, String icon) {
-        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(prefix + id).icon(icon).build());
+        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(calcPrefix(prefix) + id).icon(icon).build());
     }
 
     private String generateShort(int length) {
