@@ -69,4 +69,11 @@ class UrlShortenerSpec extends Specification {
         assert urls.size() > 0;
     }
 
+    def "orig url icon should be on assetMetada"(){
+        when:
+        def response = shortenerClient.shortMe(FULL_URL, PREFIX)
+
+        then:
+        assert shortenerClient.urlStats(response.shortUrl).asset.icon != null
+    }
 }

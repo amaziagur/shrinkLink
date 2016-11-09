@@ -1,6 +1,7 @@
 package com.crazyLabz.shortener.service;
 
 import com.crazyLabz.shortener.entities.UrlAsset;
+import com.crazyLabz.shortener.fetcher.IconFetcher;
 import com.crazyLabz.shortener.repos.UrlAssetRepository;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,15 +24,19 @@ public class PersistedShortenerService implements ShortenerService {
 
     UrlAssetRepository assetRepository;
 
+    IconFetcher iconFetcher;
+
     @Autowired
-    public PersistedShortenerService(UrlAssetRepository assetRepository){
+    public PersistedShortenerService(UrlAssetRepository assetRepository, IconFetcher iconFetcher){
         this.assetRepository = assetRepository;
+        this.iconFetcher = iconFetcher;
     }
 
     @Override
     public String shorten(String url, String prefix, int length) {
         String shortened = generateShort(length);
-        logUrlMetaData(url, prefix, shortened);
+        String icon = iconFetcher.fetchIconFor(url);
+        logUrlMetaData(url, prefix, shortened, icon);
         return calcPrefix(prefix) + shortened;
     }
 
@@ -42,8 +47,8 @@ public class PersistedShortenerService implements ShortenerService {
         return prefix;
     }
 
-    private void logUrlMetaData(String url, String prefix, String id) {
-        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(prefix + id).build());
+    private void logUrlMetaData(String url, String prefix, String id, String icon) {
+        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(prefix + id).icon(icon).build());
     }
 
     private String generateShort(int length) {

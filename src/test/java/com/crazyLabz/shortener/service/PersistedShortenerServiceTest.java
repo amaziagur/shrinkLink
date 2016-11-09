@@ -1,6 +1,7 @@
 package com.crazyLabz.shortener.service;
 
 import com.crazyLabz.shortener.entities.UrlAsset;
+import com.crazyLabz.shortener.fetcher.IconFetcher;
 import com.crazyLabz.shortener.matchers.ShortenerMatcher;
 import com.crazyLabz.shortener.repos.UrlAssetRepository;
 import org.junit.Before;
@@ -18,8 +19,9 @@ public class PersistedShortenerServiceTest {
     public static final int SUFFIX_LENGTH = 8;
     public static final String DEFAULT_DOMAIN = "http://defult.domain";
     private UrlAssetRepository assetRepository = mock(UrlAssetRepository.class);
+    private IconFetcher iconFetcher = mock(IconFetcher.class);
 
-    PersistedShortenerService shortenerService = new PersistedShortenerService(assetRepository);
+    PersistedShortenerService shortenerService = new PersistedShortenerService(assetRepository, iconFetcher);
 
     @Before
     public void init(){

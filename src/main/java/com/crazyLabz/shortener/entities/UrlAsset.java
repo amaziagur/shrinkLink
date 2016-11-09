@@ -29,6 +29,8 @@ public class UrlAsset {
 
     private long hits;
 
+    private String icon;
+
     private  Map<String, GeoLocation> visitors;
 
     // https://reinhard.codes/2016/07/13/using-lomboks-builder-annotation-with-default-values/
