@@ -12,4 +12,4 @@ management:
 
 default:
   suffix.length: 8
-  domain: https://crazylabz.io/
+  domain: http://crazylabz.io/
