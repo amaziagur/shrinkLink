@@ -12,4 +12,4 @@ management:
 
 default:
   suffix.length: 8
-  domain: https://shortener-link.herokuapp.com/shortener/
+  domain: https://crazylabz.io/
