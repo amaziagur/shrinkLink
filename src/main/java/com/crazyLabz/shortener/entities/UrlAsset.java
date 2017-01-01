@@ -48,6 +48,7 @@ public class UrlAsset {
                 .shortUrl(urlAsset.shortUrl)
                 .visitors(updateVisitorStats(urlAsset, visitor, visitorLocation))
                 .siteName(urlAsset.siteName)
+                .icon(urlAsset.icon)
                 .build();
     }
 
