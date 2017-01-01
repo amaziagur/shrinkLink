@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 @Service
 @Slf4j
 public class PersistedShortenerService implements ShortenerService {
@@ -36,8 +39,20 @@ public class PersistedShortenerService implements ShortenerService {
     public String shorten(String url, String prefix, int length) {
         String shortened = generateShort(length);
         String icon = iconFetcher.fetchIconFor(url);
-        logUrlMetaData(url, prefix, shortened, icon);
+        String siteName = grabSiteName(url);
+        logUrlMetaData(url, prefix, shortened, icon, siteName);
         return calcPrefix(prefix) + shortened;
+    }
+
+    private String grabSiteName(String url) {
+        URL myUrl = null;
+        try {
+            myUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return myUrl.getHost();
     }
 
     private String calcPrefix(String prefix) {
@@ -47,8 +62,8 @@ public class PersistedShortenerService implements ShortenerService {
         return prefix;
     }
 
-    private void logUrlMetaData(String url, String prefix, String id, String icon) {
-        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(calcPrefix(prefix) + id).icon(icon).build());
+    private void logUrlMetaData(String url, String prefix, String id, String icon, String siteName) {
+        assetRepository.save(UrlAsset.builder().fullUrl(url).id(id).shortUrl(calcPrefix(prefix) + id).icon(icon).siteName(siteName).build());
     }
 
     private String generateShort(int length) {

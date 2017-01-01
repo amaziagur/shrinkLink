@@ -31,6 +31,8 @@ public class UrlAsset {
 
     private String icon;
 
+    private String siteName;
+
     private  Map<String, GeoLocation> visitors;
 
     // https://reinhard.codes/2016/07/13/using-lomboks-builder-annotation-with-default-values/
@@ -45,6 +47,7 @@ public class UrlAsset {
                 .fullUrl(urlAsset.fullUrl)
                 .shortUrl(urlAsset.shortUrl)
                 .visitors(updateVisitorStats(urlAsset, visitor, visitorLocation))
+                .siteName(urlAsset.siteName)
                 .build();
     }
 
@@ -57,10 +60,4 @@ public class UrlAsset {
 
         return urlAsset.visitors;
     }
-
-    /*private static Map<String, Long> calcVisitorHits(Map<String, Long> currentVisitors, String visitor){
-        Optional<Long> hits = Optional.ofNullable(currentVisitors.get(visitor));
-        currentVisitors.put(visitor, hits.isPresent() ? hits.get() + 1: 1L);
-        return currentVisitors;
-    }*/
 }

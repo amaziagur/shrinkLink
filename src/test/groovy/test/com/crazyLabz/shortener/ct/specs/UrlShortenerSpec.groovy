@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 class UrlShortenerSpec extends Specification {
 
-    public static final String FULL_URL = "http://www.google.com"
+    public static final String FULL_URL = "http://www.facebook.com"
     public static final String PREFIX = "http://localhost:8080/shortener/"
 
     @Shared

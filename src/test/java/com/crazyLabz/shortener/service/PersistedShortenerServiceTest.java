@@ -11,10 +11,11 @@ import org.mockito.Mockito;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PersistedShortenerServiceTest {
 
-    public static final String URL = "http://short-me.com?companyName=aaa";
+    public static final String URL = "http://www.short-me.com/companyName=aaa";
     public static final String PREFIX = "http://www.crazyLabs/";
     public static final int SUFFIX_LENGTH = 8;
     public static final String DEFAULT_DOMAIN = "http://defult.domain";
@@ -60,10 +61,18 @@ public class PersistedShortenerServiceTest {
     public void shouldStoreUrlMetaData(){
         shortenerService.setSuffixLength(8);
         String shorten = shortenerService.shorten(URL, PREFIX, 0);
-        verify(assetRepository).save(getUrlAsset(shorten));
+        verify(assetRepository).save(getUrlAssetWithSiteName(shorten));
     }
 
-    private UrlAsset getUrlAsset(String shorten) {
-        return UrlAsset.builder().fullUrl(URL).shortUrl(shorten).id(shorten.split(PREFIX)[1]).build();
+    @Test
+    public void shouldFigureOutSiteNameGivenIconUrl(){
+        shortenerService.setSuffixLength(8);
+        String shorten = shortenerService.shorten(URL, PREFIX, 0);
+        verify(assetRepository).save(getUrlAssetWithSiteName(shorten));
+
+    }
+
+    private UrlAsset getUrlAssetWithSiteName(String shorten) {
+        return UrlAsset.builder().fullUrl(URL).shortUrl(shorten).id(shorten.split(PREFIX)[1]).siteName("www.short-me.com").build();
     }
 }
